@@ -1,4 +1,4 @@
-# Alunos: KINSLEY CHINDA AMADI e EDUARDO LIMA
+# Alunos: KINSLEY CHINDA AMADI (97399) e EDUARDO LIMA (RA: 105764)
 
 
 # AULA 02 — Resultados e Considerações
