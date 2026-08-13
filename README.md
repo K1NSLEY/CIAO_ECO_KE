@@ -1,3 +1,6 @@
+# Alunos: KINSLEY CHINDA AMADI e EDUARDO LIMA
+
+
 # AULA 02 — Resultados e Considerações
 
 **Disciplina:** CIAO_ECO_2026  
