@@ -5,8 +5,6 @@
 
 **Disciplina:** CIAO_ECO_2026  
 **Atividade:** AC-1 — Etapa 1  
-**Dupla/Trio:** PREENCHER COM OS NOMES  
-**Repositório:** PREENCHER COM O LINK DO REPOSITÓRIO
 
 ---
 
@@ -60,9 +58,9 @@ em um veículo com limite de peso, buscando maximizar o valor dos produtos.
 
 | Cidades | Rotas avaliadas | Melhor custo | Tempo |
 |---:|---:|---:|---:|
-| 4 | 6 | 80 | preencher após execução |
-| 5 | 24 | 36 | preencher após execução |
-| 6 | 120 | 92 | preencher após execução |
+| 4 | 6 | 80 | 0.000054 s |
+| 5 | 24 | 36 | 0.000049 s |
+| 6 | 120 | 92 | 0.000211 s |
 
 O número de rotas segue a fórmula:
 
@@ -116,10 +114,10 @@ notebook `lab03_aula02.ipynb`.
 | Estatística | Resultado |
 |---|---:|
 | Número de instâncias | 20 |
-| Gap médio | preencher após execução |
-| Gap mínimo | preencher após execução |
-| Gap máximo | preencher após execução |
-| Desvio padrão | preencher após execução |
+| Gap médio | 0.39 |
+| Gap mínimo | 0.00% |
+| Gap máximo | 4.19% |
+| Desvio padrão | 1.03% |
 
 ## Considerações
 
