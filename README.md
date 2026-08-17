@@ -35,9 +35,6 @@ Total:
 - Peso = 5
 - Valor = 9
 
-O tempo de execução deve ser preenchido com o valor mostrado pelo notebook,
-pois depende do computador utilizado.
-
 ## Considerações
 
 O resultado confirma que, com 5 itens, a enumeração completa é totalmente
