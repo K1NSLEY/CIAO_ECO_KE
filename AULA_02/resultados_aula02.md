@@ -2,8 +2,7 @@
 
 **Disciplina:** CIAO_ECO_2026  
 **Atividade:** AC-1 — Etapa 1  
-**Dupla/Trio:** PREENCHER COM OS NOMES  
-**Repositório:** PREENCHER COM O LINK DO REPOSITÓRIO
+**Dupla:** Kinsley Chinda Amadi (97399) e Eduardo Lima (105764)
 
 ---
 
@@ -39,15 +38,14 @@ pois depende do computador utilizado.
 
 ## Considerações
 
-O resultado confirma que, com 5 itens, a enumeração completa é totalmente
-viável. Cada item possui duas possibilidades, escolhido ou não escolhido,
-resultando em `2^5 = 32` combinações.
+Com cinco itens, testar tudo ainda é tranquilo: são só 32 combinações. A
+melhor escolha usou toda a capacidade da mochila e deixou de fora apenas os
+itens que não ajudavam a aumentar o valor final.
 
-O experimento também mostra que o número de possibilidades cresce
-exponencialmente. Com 15 itens seriam `2^15 = 32.768` combinações.
-
-Um problema semelhante no mundo real é selecionar produtos para transportar
-em um veículo com limite de peso, buscando maximizar o valor dos produtos.
+O problema escala rápido. Com 15 itens já seriam 32.768 possibilidades, o que
+mostra por que procurar todas as combinações deixa de ser uma boa ideia em
+casos maiores. A mesma lógica serve, por exemplo, para montar uma carga de
+veículo sem ultrapassar o peso permitido.
 
 ---
 
@@ -75,14 +73,13 @@ Assim:
 
 ## Considerações
 
-O crescimento é fatorial e, portanto, extremamente rápido.
+Os números deixam o problema bem claro: com quatro, cinco e seis cidades o
+programa ainda termina rápido, mas o total de rotas cresce em fatorial. Para
+dez cidades já seriam 362.880 rotas; para quinze, mais de 87 bilhões.
 
-Para 10 cidades já existem 362.880 rotas. Para 15 cidades são mais de
-87 bilhões de possibilidades.
-
-Isso explica por que a força bruta é adequada apenas para instâncias pequenas.
-Em problemas reais de roteamento, normalmente são necessários métodos mais
-eficientes, heurísticas ou técnicas de otimização.
+Por isso, força bruta funciona para entender o problema e conferir exemplos
+pequenos, mas não é uma saída prática para roteamento real. Nesses casos,
+heurísticas passam a fazer mais sentido.
 
 ---
 
@@ -120,17 +117,13 @@ notebook `lab03_aula02.ipynb`.
 
 ## Considerações
 
-A heurística gulosa é uma alternativa interessante porque encontra soluções
-rapidamente. Entretanto, ela não garante a solução ótima para a mochila 0/1.
+O método guloso é rápido porque toma decisões locais, mas isso não garante a
+melhor mochila possível. Foi justamente para enxergar essa diferença que o
+gap foi calculado em cada instância.
 
-Quando a instância é pequena e a qualidade da solução é muito importante,
-podemos utilizar um método exato.
-
-Quando a instância é grande e o tempo de processamento é uma preocupação,
-uma heurística pode ser uma escolha melhor, aceitando eventualmente uma
-solução um pouco pior em troca de uma execução muito mais rápida.
-
-O gap permite medir quantitativamente essa diferença.
+Se a instância for pequena e a resposta ótima for indispensável, vale usar um
+método exato. Quando o conjunto cresce, aceitar uma resposta um pouco pior em
+troca de velocidade pode ser a escolha mais realista.
 
 ---
 
@@ -194,39 +187,21 @@ tornar computacionalmente difícil para instâncias maiores.
 
 ## Considerações finais
 
-A atividade mostrou como um problema cotidiano pode ser transformado em um
-problema de otimização.
-
-Foi possível identificar:
-
-- uma representação para as soluções;
-- um espaço de busca;
-- uma função objetivo;
-- uma restrição;
-- uma forma de verificar a factibilidade.
-
-A atividade também reforçou a importância de distinguir entre encontrar uma
-solução válida e encontrar a melhor solução possível.
+Esse laboratório ajudou a colocar a modelagem em termos mais concretos: cada
+produto vira uma posição no vetor, o orçamento vira restrição e a utilidade é
+o que queremos maximizar. Uma lista que cabe no orçamento é válida, mas isso
+não quer dizer que seja a melhor lista possível - essa foi a diferença mais
+importante observada no exercício.
 
 ---
 
 # Conclusão da AULA 02
 
-Os quatro laboratórios permitiram observar diferentes estratégias para
-problemas de otimização.
+Os quatro laboratórios formaram uma sequência coerente: primeiro foi possível
+testar todas as alternativas; depois apareceu o custo desse tipo de busca; em
+seguida, a comparação com a heurística mostrou o preço de ganhar velocidade;
+e, por fim, o mesmo raciocínio foi aplicado a uma situação cotidiana.
 
-No Laboratório 1, a força bruta foi utilizada para enumerar todas as soluções
-da mochila.
-
-No Laboratório 2, observamos a explosão combinatória do TSP, cujo número de
-rotas cresce de forma fatorial.
-
-No Laboratório 3, comparamos uma heurística gulosa com a solução ótima e
-utilizamos o gap para medir a diferença de qualidade.
-
-No Laboratório 4, aplicamos os conceitos em um problema cotidiano, mostrando
-como modelar uma situação real como um problema de otimização.
-
-De maneira geral, os experimentos mostram que métodos exatos são muito úteis
-para problemas pequenos, mas que o crescimento do espaço de busca exige
-heurísticas e outras técnicas para problemas maiores.
+Em resumo, métodos exatos são ótimos quando o problema cabe no tempo de
+execução. Quando não cabe, é preciso aceitar soluções aproximadas e medir bem
+o quanto se perdeu em qualidade.
