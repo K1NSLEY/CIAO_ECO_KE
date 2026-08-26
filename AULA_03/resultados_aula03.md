@@ -133,22 +133,15 @@ Erro: 0
 
 ## Considerações da dupla
 
-No LAB-01 analisamos a aplicação de um Algoritmo Genético para
-maximizar a função f(x) = x² no intervalo [0,31].
+Neste laboratório, o cromossomo de 5 bits representa um número entre 0 e 31,
+e o objetivo é fazer `x²` ficar o maior possível. A execução chegou em
+`x = 31`, com fitness 961, que é justamente o melhor resultado possível no
+intervalo.
 
-A solução é representada por um cromossomo binário de 5 bits.
-O fitness corresponde ao valor da função objetivo, portanto
-indivíduos com valores maiores de x possuem maior fitness.
-
-O algoritmo utiliza mecanismos de seleção, crossover, mutação
-e elitismo. O elitismo permite preservar o melhor indivíduo
-encontrado, enquanto crossover e mutação permitem explorar
-novas soluções.
-
-O ótimo global conhecido é x = 31, com f(x) = 961.
-
-Como existem operações aleatórias, diferentes execuções podem
-produzir resultados diferentes.
+Deu para perceber o papel de cada etapa do algoritmo: o torneio favorece os
+melhores candidatos, o crossover mistura características e a mutação evita
+que a população fique sempre igual. O elitismo ajudou a não perder o melhor
+indivíduo quando ele apareceu na geração 6.
 
 
 ---
@@ -185,20 +178,14 @@ DESAFIO: Mude os parâmetros e veja o que acontece!
 
 ## Considerações da dupla
 
-No LAB-02 analisamos o problema OneMax. O objetivo é maximizar
-a quantidade de bits iguais a 1 em um cromossomo.
+No OneMax a leitura é direta: quanto mais posições com valor 1, melhor. Como
+o cromossomo tem 20 bits, o teto é 20. Ele já foi atingido na geração 10 e se
+manteve até o final.
 
-Nesse problema, o fitness corresponde diretamente ao número
-de bits 1. Portanto, para um cromossomo de tamanho 20, o ótimo
-global é fitness igual a 20.
-
-Foram observados os mecanismos de seleção por torneio,
-crossover, mutação e elitismo.
-
-Os parâmetros utilizados pelo Algoritmo Genético influenciam
-seu comportamento. Alterações na população, quantidade de
-gerações, taxa de mutação e elitismo podem modificar a
-velocidade de convergência e a qualidade das soluções.
+Também ficou evidente que os parâmetros importam. Uma mutação alta demais pode
+desfazer soluções boas; população pequena reduz a variedade; e retirar o
+elitismo pode fazer o melhor resultado sumir. Não há um único ajuste perfeito:
+depende de quanto se quer explorar e de quanto se quer preservar.
 
 
 ---
@@ -214,22 +201,12 @@ velocidade de convergência e a qualidade das soluções.
 
 ## Considerações da dupla
 
-No LAB-03 foram implementadas as funções solicitadas no código
-semi-pronto.
+No LAB-03 a parte principal foi completar as funções que faltavam. Primeiro,
+`bits_para_x` converte os 8 bits para um valor no intervalo definido. Depois,
+a função de fitness avalia esse valor, e a mutação faz a inversão de bits com
+a probabilidade configurada.
 
-A função bits_para_x transforma o cromossomo binário de 8 bits
-em um valor real no intervalo [X_MIN, X_MAX].
-
-A função fitness utiliza o valor de x para calcular a função
-objetivo, que deve ser maximizada.
-
-A função mutacao implementa a mutação bit-flip. Cada bit possui
-uma probabilidade definida por TAXA_MUT de ser invertido.
-
-Depois dessas implementações, o Algoritmo Genético consegue
-avaliar os indivíduos, realizar seleção, crossover e mutação,
-buscando uma solução com alto valor de fitness.
-
-Devido à natureza aleatória do algoritmo, os valores encontrados
-podem variar entre execuções.
+Com isso preenchido, o restante do algoritmo conseguiu avaliar, selecionar e
+gerar novas soluções normalmente. Como há sorteio na seleção e na mutação, é
+esperado que execuções diferentes não sigam exatamente o mesmo caminho.
 

@@ -2,24 +2,24 @@
 
 ## Exercício 1 - Elitismo
 
-Foi executado o mesmo cenário duas vezes, com a mesma matriz de distâncias e
-com sementes idênticas: uma execução preservando o melhor indivíduo e outra
-sem elitismo. O melhor custo com elitismo foi **250,37**, enquanto a execução
-sem elitismo obteve **272,22**. Nesse experimento, o elitismo preservou a melhor
-solução e produziu uma convergência mais estável.
+Rodamos o mesmo cenário duas vezes para a comparação não ficar injusta: mesma
+matriz e mesma semente, mudando apenas o elitismo. Com elitismo, o menor custo
+foi **250,37**; sem ele, ficou em **272,22**. Na prática, guardar o melhor
+indivíduo evitou que uma solução boa se perdesse nas gerações seguintes.
 
 ## Exercício 2 - Penalidades de SLA
 
-Com `np.random.seed(15)` e a rota `[0, 1, 2, 3, 4, 5]`, o custo final foi
-**1160,00 ms**. O cálculo soma a latência de cada enlace e adiciona 1000 ms
-para cada enlace que excede o limite operacional de 50 ms.
+Para a rota `[0, 1, 2, 3, 4, 5]`, usando a semente 15, o resultado foi
+**1160,00 ms**. O valor parece alto porque não é só a soma das latências:
+cada enlace acima de 50 ms recebeu mais 1000 ms. Foi uma forma simples de
+deixar claro que uma rota rápida no total ainda pode ser ruim se quebrar o SLA.
 
 ## Desafio 3 - Alocação de servidores
 
-As 20 tarefas totalizam 541 segundos. Como há quatro servidores, o limite
-inferior para o makespan é `ceil(541 / 4) = 136` segundos. O algoritmo
-genético encontrou a distribuição de cargas abaixo, atingindo esse limite e,
-portanto, uma solução ótima para essa instância.
+As 20 tarefas somam 541 segundos. Dividindo esse total entre quatro
+servidores, ninguém conseguiria terminar antes de `ceil(541 / 4) = 136`
+segundos. A distribuição encontrada chegou exatamente nesse valor, então não
+há como melhorar o makespan dessa instância.
 
 | Servidor | Carga | Tarefas |
 |---:|---:|---|
@@ -32,10 +32,10 @@ portanto, uma solução ótima para essa instância.
 
 ## Desafio de Fechamento - Motor SD-WAN Zero-Trust
 
-O motor selecionou a rota **0 -> 3 -> 7 -> 11**. A rota possui latência total
-de **56,00 ms**, perda de pacotes total de **1,20%**, penalidade de segurança
-igual a **0** e fitness final de **86,00**.
+O motor escolheu **0 -> 3 -> 7 -> 11**: 56,00 ms de latência, 1,20% de perda,
+nenhuma penalidade de segurança e fitness **86,00**.
 
-Os roteadores 2, 5 e 8 têm reputação abaixo de 50 e recebem penalidade de
-segurança de 5000 quando pertencem a uma rota. A rota escolhida desvia desses
-nós não confiáveis, mantendo a decisão alinhada ao requisito Zero-Trust.
+O ponto mais importante aqui não foi só chegar ao destino. Os roteadores 2, 5
+e 8 têm reputação abaixo de 50; usar qualquer um deles acrescentaria 5000 ao
+fitness. A rota escolhida contorna esses pontos, o que combina com a regra de
+Zero-Trust proposta no desafio.
