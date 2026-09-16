@@ -14,13 +14,15 @@ Atividade: AC2 — Parte 2: Laboratório Prático de Meta-Heurísticas
 [LAB 01 - SUCESSO] Melhor Caminho: [0, 1, 3, 4, 2, 0] | Custo: 70
 ```
 
-## Considerações
+## Questões Técnicas LAB 01
 
-O algoritmo ACO combinou busca global e refinamento local. A etapa de construção das rotas explorou o espaço de busca por meio da probabilidade baseada em feromônio e heurística, enquanto a busca local 2-opt intensificou a solução encontrada, melhorando o custo final da rota.
+**1. Como o uso da busca local 2-opt afeta o equilíbrio entre Exploration e Exploitation na busca de caminhos?**
 
-Esse tipo de estratégia é interessante porque permite que o algoritmo explore várias alternativas sem perder a possibilidade de corrigir e otimizar a melhor solução identificada.
+O ACO realiza a etapa de *Exploration* ao construir diferentes rotas usando o feromônio e a heurística. Em seguida, a busca local 2-opt realiza a *Exploitation*, testando inversões de trechos da rota para encontrar uma solução de menor custo. Assim, o 2-opt intensifica a busca nas regiões promissoras sem eliminar completamente a exploração global feita pelas formigas. O custo dessa melhoria é um aumento no tempo de processamento, pois várias vizinhanças precisam ser avaliadas.
 
-Se a taxa de evaporação do feromônio fosse definida como rho = 0.0, o algoritmo perderia o mecanismo de esquecimento e o feromônio acumulado em caminhos antigos poderia dominar a busca. Isso faria a convergência ocorrer mais rapidamente, mas com maior risco de ficar preso em soluções subótimas.
+**2. O que aconteceria com a convergência do algoritmo se a taxa de evaporação (`rho`) fosse definida em 0.0, sem evaporação?**
+
+Com `rho = 0.0`, a atualização `pheromone *= (1 - rho)` não reduziria os valores existentes. O feromônio acumulado em caminhos antigos poderia dominar as decisões das formigas, fazendo o algoritmo convergir mais rapidamente para uma rota, mas aumentando o risco de essa rota ser subótima. Sem evaporação, o ACO perderia parte de sua capacidade de esquecer escolhas ruins e explorar alternativas.
 
 # Laboratório 2 — Algoritmo Genético
 
@@ -33,11 +35,15 @@ Se a taxa de evaporação do feromônio fosse definida como rho = 0.0, o algorit
 [LAB 02] Peso: 8/15
 ```
 
-## Considerações
+## Questões Técnicas LAB 02
 
-O problema da mochila exige que a solução respeite a restrição de peso. A penalização do fitness foi fundamental para garantir que indivíduos inviáveis não fossem favorecidos durante a evolução. Isso força a população a convergir para respostas válidas dentro da capacidade máxima da mochila.
+**1. Explique qual é o papel do operador de mutação em um Algoritmo Genético e o que ocorre se a taxa de mutação for configurada em 100%.**
 
-A mutação também desempenha papel importante porque introduz diversidade genética e ajuda a evitar que a busca fique presa em ótimos locais. No entanto, se a taxa de mutação for elevada demais, o algoritmo pode perder a estrutura evolutiva e se tornar semelhante a uma busca aleatória.
+A mutação introduz diversidade genética na população ao inverter aleatoriamente alguns bits dos indivíduos. Ela ajuda o algoritmo a explorar novas soluções e a escapar de ótimos locais. Com uma taxa de mutação de 100%, todos os genes seriam invertidos em todas as gerações. A busca perderia grande parte da estabilidade herdada dos pais e poderia se aproximar de uma busca aleatória, dificultando a convergência.
+
+**2. Por que a penalização do fitness, atribuindo 0 para indivíduos que ultrapassam a capacidade, é fundamental para a convergência das restrições?**
+
+A penalização impede que soluções inviáveis sejam favorecidas apenas por apresentarem alto valor total. Ao atribuir fitness 0 aos indivíduos cujo peso ultrapassa 15, o algoritmo direciona a seleção para soluções que respeitam a capacidade da mochila. Dessa forma, a população converge para respostas válidas, e não apenas para respostas com maior valor ignorando a restrição.
 
 # Laboratório 3 — PSO: Inércia, Componente Cognitiva e Social
 
@@ -49,11 +55,15 @@ A mutação também desempenha papel importante porque introduz diversidade gen�
 [LAB 03] Fitness do gbest: 0.000011
 ```
 
-## Considerações
+## Questões Técnicas LAB 03
 
-O PSO mostrou como a interação entre as partículas pode produzir convergência para uma boa solução. A inércia controla a influência da velocidade anterior, enquanto a componente cognitiva e a social equilibram a busca individual e coletiva.
+**1. O que acontece com o comportamento das partículas se zerarmos a componente cognitiva (`c1 = 0`)?**
 
-Quando a componente cognitiva é zerada, as partículas passam a seguir principalmente o melhor global do enxame. Isso reduz a autonomia individual e aumenta o risco de convergência prematura para um mínimo local. A inércia, por sua vez, define o quanto o algoritmo continua explorando ou se concentra em refinamento local.
+As partículas deixam de considerar a própria melhor posição histórica (`pbest`) e passam a ser influenciadas principalmente pela inércia e pelo melhor resultado coletivo (`gbest`). Isso reduz a autonomia individual, concentra o enxame em torno da melhor posição global conhecida e aumenta o risco de convergência prematura para um mínimo local.
+
+**2. Qual a função do parâmetro de inércia (`w`) na busca por mínimos globais?**
+
+O parâmetro `w` controla quanto da velocidade anterior é mantido. Valores maiores favorecem velocidades mais persistentes e maior exploração do espaço de busca; valores menores reduzem o movimento e favorecem a intensificação perto das melhores posições. Portanto, a inércia ajuda a equilibrar exploração global e refinamento local.
 
 # Laboratório 4 — ACO: Feromônio, Evaporação e Atratividade
 
@@ -68,11 +78,19 @@ Quando a componente cognitiva é zerada, as partículas passam a seguir principa
   [0.75       0.75       0.75       0.75      ]]
 ```
 
-## Considerações
+## Questões Técnicas LAB 04
 
-A evaporação do feromônio é essencial para evitar que caminhos antigos continuem dominando a busca. Sem esse mecanismo, o sistema tenderia a reforçar soluções ultrapassadas e a perder capacidade de adaptação.
+**1. Por que a evaporação do feromônio é necessária no algoritmo ACO?**
 
-A atratividade inicial dos enlaces está relacionada inversamente à latência do arco, ou seja, enlaces com menor custo tendem a receber maior valor de atratividade. Isso faz com que as formigas prefiram rotas mais curtas e eficientes, garantindo uma convergência mais consistente para soluções melhores.
+A evaporação reduz gradualmente o feromônio acumulado em arestas antigas. Isso evita que uma escolha feita no início domine todas as iterações seguintes e mantém a capacidade de explorar novas rotas. Portanto, ela ajuda a equilibrar intensificação e adaptação durante a busca.
+
+**2. O que ocorreria em grafos complexos sem evaporação?**
+
+Sem evaporação, os depósitos de feromônio seriam acumulados indefinidamente. Uma rota inicialmente escolhida poderia receber cada vez mais feromônio, mesmo que não fosse a melhor, levando à convergência prematura e à perda de diversidade na exploração do grafo.
+
+**3. Qual a relação matemática entre a latência de um enlace e sua atratividade inicial (`eta`) para as formigas?**
+
+A atratividade é inversamente proporcional à latência do enlace. No código, essa relação é representada por `eta = 1 / latencia` (ou por `(1 / latencia) ** beta` quando a influência heurística é aplicada). Assim, quanto menor a latência, maior a atratividade e a probabilidade de o enlace ser escolhido.
 
 # Laboratório 5 — Algoritmo Memético
 
@@ -84,14 +102,18 @@ A atratividade inicial dos enlaces está relacionada inversamente à latência d
 [LAB 05] Solucao Refinada: [ 2.53717717 -3.04875403] | Fitness: 35.9261
 ```
 
-## Considerações
+## Questões Técnicas LAB 05
 
-A busca local aplicada ao algoritmo memético foi importante para melhorar a solução inicial e intensificar a busca em torno da melhor área encontrada. Esse tipo de estratégia combina a exploração global da evolução com um refinamento local mais agressivo.
+**1. Qual a diferença fundamental de conceito entre um Algoritmo Genético Puro e um Algoritmo Memético?**
 
-A principal vantagem do método é melhorar a qualidade da solução em comparação com um algoritmo evolutivo puro. Porém, esse ganho vem com custo computacional maior, porque a busca local precisa avaliar várias vizinhanças para cada indivíduo da população.
+O Algoritmo Genético Puro depende principalmente de seleção, crossover e mutação para explorar o espaço de soluções. O Algoritmo Memético acrescenta uma busca local, que refina individualmente as soluções encontradas. Assim, o método memético combina exploração global da evolução com intensificação local.
+
+**2. Em termos de custo computacional, qual o impacto de executar a busca local sobre todos os indivíduos de uma população a cada geração?**
+
+O custo computacional aumenta, porque cada indivíduo exige a avaliação de vários vizinhos a cada geração. Embora isso possa melhorar a qualidade e acelerar a convergência das soluções, o tempo total de execução cresce proporcionalmente ao tamanho da população, ao número de gerações e ao número de passos da busca local.
 
 # Conclusão da AULA 07
 
-Os quatro laboratórios permitiram observar diferentes formas de resolver problemas de otimização usando meta-heurísticas. No Laboratório 1, o ACO mostrou equilíbrio entre exploração e refinamento. No Laboratório 2, o Algoritmo Genético confirmou a importância da diversidade e da penalização de soluções inviáveis. No Laboratório 3, o PSO mostrou como a memória individual e o conhecimento coletivo influenciam a busca. No Laboratório 4, a evaporação do feromônio demonstrou ser essencial para manter a busca adaptativa. No Laboratório 5, o enfoque memético mostrou que a combinação entre evolução e busca local pode acelerar a convergência para boas soluções.
+Os cinco laboratórios permitiram observar diferentes formas de resolver problemas de otimização usando meta-heurísticas. No Laboratório 1, o ACO mostrou equilíbrio entre exploração e refinamento. No Laboratório 2, o Algoritmo Genético confirmou a importância da diversidade e da penalização de soluções inviáveis. No Laboratório 3, o PSO mostrou como a memória individual e o conhecimento coletivo influenciam a busca. No Laboratório 4, a evaporação do feromônio demonstrou ser essencial para manter a busca adaptativa. No Laboratório 5, o enfoque memético mostrou que a combinação entre evolução e busca local pode acelerar a convergência para boas soluções.
 
 Em geral, a aula confirmou que diferentes meta-heurísticas são úteis em cenários distintos e que o sucesso da otimização depende diretamente do equilíbrio entre exploração, intensificação e controle de restrições.
