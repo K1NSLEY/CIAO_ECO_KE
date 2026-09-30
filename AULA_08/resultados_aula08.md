@@ -1,24 +1,24 @@
 # Alunos: KINSLEY CHINDA AMADI (97399) e EDUARDO LIMA (RA: 105764)
 
-# AULA 08 — Resultados e Considerações
+# AULA 08 — Fechamento da AC-2
 
 Disciplina: CIAO_ECO_2026  
 Atividade: Fechamento da AC-2 — etapa 2 da fase final
 
-## Reprodutibilidade e fonte dos dados
+## Observação sobre os dados
 
-Os resultados abaixo foram obtidos pela execução local dos arquivos `lab01_aula08.py`, `lab02_aula08.py` e `lab03_aula08.py`, em 30/09/2026, com as sementes fixas existentes nos próprios códigos. Os gráficos foram gerados na mesma execução.
+Os três programas foram executados em 30/09/2026 com as sementes definidas nos arquivos. Os gráficos incluídos na pasta foram gerados nessa execução.
 
-O roteiro não fornece a tabela oficial com Valor de Negócio, RAM e CPU dos 15 microsserviços, nem a matriz oficial de latências `D` (10×10). Portanto:
+O enunciado apresenta os limites do LAB 02 e descreve a matriz do LAB 03, mas não traz a tabela com os 15 microsserviços nem a matriz de latências 10×10. Por isso, os scripts trabalham com os dados fixos que estão neles:
 
-- o LAB 02 usa a base determinística `SERVICOS` declarada em `lab02_aula08.py`;
-- o LAB 03 usa a matriz `D` determinística calculada a partir das coordenadas declaradas em `lab03_aula08.py`.
+- no LAB 02, a lista `SERVICOS` de `lab02_aula08.py`;
+- no LAB 03, a matriz `D` calculada a partir das coordenadas de `lab03_aula08.py`.
 
-Logo, os números desses dois laboratórios são resultados reais da execução dessas bases de teste, mas não devem ser interpretados como resultados de uma eventual base oficial que não foi disponibilizada no roteiro.
+Assim, os valores registrados aqui são os que os programas realmente retornaram para essas bases, e não uma tentativa de completar dados que não foram fornecidos.
 
 ## Laboratório 1 — PSO para balanceamento dinâmico de carga
 
-O PSO foi executado com 100 iterações para populações de 10, 30 e 50 partículas. Em cada atualização, os pesos são normalizados, preservando `sum(W) = 1`. Nenhum coeficiente de aquecimento ultrapassa o limite crítico de 75 °C; por isso, a penalidade externa foi zero em todos os casos.
+Foram feitas 100 iterações para populações de 10, 30 e 50 partículas. A normalização foi aplicada em cada iteração; por isso, a soma dos pesos permaneceu igual a 1. Nenhum dos coeficientes de aquecimento passa de 75 °C, então a penalidade não entrou no cálculo nesta execução.
 
 | População | Melhor W = [w1, w2, w3, w4, w5, w6] | sum(W) | Temperatura média ponderada |
 |---:|---|---:|---:|
@@ -26,13 +26,13 @@ O PSO foi executado com 100 iterações para populações de 10, 30 e 50 partíc
 | 30 | [0, 0, 0, 1, 0, 0] | 1,000000000000 | 30,000000 °C |
 | 50 | [0, 0, 0, 1, 0, 0] | 1,000000000000 | 30,000000 °C |
 
-O resultado é coerente com a função objetivo: como `C = [42, 35, 58, 30, 50, 65]`, o menor coeficiente é o da quarta AZ (30 °C). Sem uma restrição adicional de capacidade ou de distribuição mínima por AZ, concentrar todo o peso nessa AZ minimiza a média ponderada.
+O resultado faz sentido para a função usada. Em `C = [42, 35, 58, 30, 50, 65]`, o menor valor é 30, na quarta AZ. Como não há limite de carga por AZ nem peso mínimo para as demais, o melhor caso é colocar todo o peso nessa zona.
 
 Gráfico gerado: `lab01_evolucao_fitness.png`.
 
 ## Laboratório 2 — AG binário para seleção de microsserviços
 
-Foram executadas 100 gerações, com população 60, seleção por torneio, crossover de ponto único, elitismo e mutação binária de 2%.
+O AG foi executado por 100 gerações, com população de 60 indivíduos, torneio, crossover de um ponto, elitismo e mutação de 2%.
 
 | Estratégia | Serviços selecionados | Valor | RAM (GB) | CPU (cores) | Fitness | Situação |
 |---|---|---:|---:|---:|---:|---|
@@ -45,13 +45,13 @@ Foram executadas 100 gerações, com população 60, seleção por torneio, cros
 | Desvio-padrão do fitness | 154,2857 | 76,1325 |
 | Diversidade genética (Hamming média) | 0,0477 | 0,0477 |
 
-As duas estratégias terminaram com a mesma diversidade genética medida. A estratégia B obteve maior fitness médio, mas a melhor solução que ela reteve viola o limite de CPU; portanto, para o requisito de respeitar simultaneamente 16 GB de RAM e 8 cores de CPU, a combinação final válida desta execução é a da estratégia A, com valor de negócio 619,00.
+As duas populações chegaram à mesma diversidade final. A estratégia B teve média de fitness maior, mas seu melhor indivíduo usa 8,5 cores e ultrapassa o limite de 8. Portanto, considerando as duas restrições, a melhor solução válida desta execução é a da estratégia A, com valor de negócio 619,00.
 
 Gráficos gerados: `lab02_fitness.png` e `lab02_diversidade.png`.
 
 ## Laboratório 3 — ACO para topologia de rede de baixa latência
 
-O ACO foi executado com 40 formigas, 100 iterações e evaporação `rho = 0,2`. A topologia encontrada possui 9 arestas, não forma ciclos e conecta os 10 switches; portanto, é uma árvore geradora válida.
+O ACO foi executado com 40 formigas, 100 iterações e `rho = 0,2`. A solução tem 9 arestas, conecta os 10 switches e não possui ciclo. Ela atende, portanto, à condição de árvore geradora.
 
 **Arestas da topologia ACO:**
 
@@ -82,10 +82,10 @@ O ACO foi executado com 40 formigas, 100 iterações e evaporação `rho = 0,2`.
 | Latência acumulada entre pares — árvore aleatória | 792,464000 |
 | Redução de latência | 56,65% |
 
-O percentual foi calculado diretamente por `(latência_aleatória - latência_ACO) / latência_aleatória × 100` para a árvore aleatória gerada com a mesma semente do código.
+O ganho foi calculado por `(latência aleatória - latência ACO) / latência aleatória × 100`, usando a árvore aleatória criada pelo próprio programa com a mesma semente.
 
 Gráfico gerado: `lab03_convergencia.png`.
 
-## Conclusão
+## Fechamento
 
-O LAB 01 confirmou a convergência do PSO para a AZ com menor coeficiente de aquecimento, dado o objetivo sem restrições adicionais de balanceamento. No LAB 02, a penalidade rígida produziu a melhor seleção viável observada; a penalidade proporcional manteve uma solução com fitness maior, porém fora do limite de CPU. No LAB 03, o ACO construiu uma árvore válida e reduziu a latência acumulada em 56,65% em relação à árvore aleatória usada na execução.
+No LAB 01, o PSO encontrou a AZ com menor coeficiente de aquecimento. No LAB 02, a penalidade rígida foi a que entregou a melhor combinação que respeita RAM e CPU; a proporcional favoreceu uma solução que excedeu CPU. Por fim, no LAB 03, o ACO montou uma árvore válida e reduziu em 56,65% a latência acumulada quando comparada à árvore aleatória usada no teste.
