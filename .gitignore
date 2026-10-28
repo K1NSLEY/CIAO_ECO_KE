@@ -1,0 +1,13 @@
+.coverage
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pycache/
+*.pycache/*
+*.pycache/**/*
+*.pycache/**/**/*
+*.pycache/**/**/**/*
+*.pycache/**/**/**/**/*
+*.pycache/**/**/**/**/**/**/*
+*.pycache/**/**/**/**/**/**/**/**/**/**/*
